@@ -1,0 +1,43 @@
+@import url(http://fonts.googleapis.com/css?family=Merienda);
+body{
+    background: url('/assets/sand_bg.jpg') no-repeat fixed center;
+    font-family: 'Merienda', Arial, sans-serif;
+    color:black;
+}
+.game_over_container{
+    width: 800px;
+    height:600px;
+    margin: 0px auto;
+    background: url(/assets/Palace/palace_bg.jpg) repeat-x scroll 0 0;
+    background-color: #ffffff;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+}
+h1{
+    text-align: center;
+    padding: 20px;
+    background-color: white;
+    border-radius: 20px;
+    width:80%;
+    margin: 0px auto;
+    border: 5px solid;
+}
+.time{
+    float:left;
+    margin-left:17px;
+    margin-top: 40px;
+    font-weight: bolder;
+}
+.time1{
+    float:left;
+    margin-left: 17px;
+    margin-top: 20px;
+    font-weight: bolder;
+}
+p{
+    float:left;
+    font-size: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+}

@@ -1,0 +1,57 @@
+<script type="text/javascript">
+    var count = 0;
+    $(function () {
+        $('.diag').hide();
+
+    });
+    function is_right_step(no_of_step, selected) {
+
+
+        var data = {operation_id:[], index:[], selected:[]};
+        data["operation_id"].push("<%= @operation.id %>");
+        data["index"].push(count);
+        data["selected"].push(selected);
+        $.ajax({
+            url:"<%= is_correct_path %>",
+            type:"post",
+            data:JSON.stringify(data),
+            contentType:"application/json",
+            success:function (returning_data) {
+                alert(returning_data);
+                if (returning_data.toString().split('|')[0] == 'y') {
+                    count = count + 1;
+                    if ($('#ccc').val() < no_of_step - 1) {
+                        $('#ccc').val(count);
+                        var this_div = "#" + returning_data.toString().split('|')[2];
+                        alert($(this_div).css('visibility'));
+                        $(this_div).css('visibility', 'visible');
+                    }
+                    else {
+                        $('.content').html('');
+                        $('.content').append('<h1>Game Over</h1>')
+                    }
+                }
+                else {
+                    alert('Wrong Answer');
+                }
+
+            }
+        });
+
+    }
+
+</script>
+<style type="text/css">
+    .diag {
+        visibility: hidden;
+    }
+</style>
+<%= hidden_field_tag 'ccc', @count %>
+<h1 id="reputation"><%= @user_reputation=current_user.reputation %></h1>
+<select name="next_step" id="next_step"><%= options_from_collection_for_select @steps, 'id', 'name' %></select>
+<a onclick="is_right_step(<%= @correct_path.split(',').count %>,$(this).prev().val())" class="btn-danger"> Submit </a>
+<% @correct_steps.each do |st| %>
+    <div class="diag" id="<%= st.id %>">
+      <h1><%= st.description %></h1>
+    </div>
+<% end %>

@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @operation.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @operation.description %>
+</p>
+
+<p>
+  <b>Avatar:</b>
+  <%= @operation.avatar %>
+</p>
+
+<p>
+  <b>Steps: </b><br>
+  <a style="width: 200px;border:2px solid red;"><%= @operation.steps.first.description %></a><br>
+  <% @operation.steps.first.hierarchies.each do |st1| %>
+      <a style="width: 200px;border:2px solid red;"><%= st1.son.description %></a><br>
+      <% st1.son.hierarchies.each do |st2| %>
+        <a style="width: 150px;border:2px solid red;"><%= st2.son.description %></a>
+        <% @child=st2.son.hierarchies unless st2.son.nil? %>
+        <% @child.each do |st3| %>
+            <br><a style="width: 200px;border:2px solid red;"><%= st3.son.description %></a>
+        <%end%>
+      <% end %>
+  <% end %>
+</p>
+
+
+<%= link_to 'Edit', edit_operation_path(@operation) %> |
+<%= link_to 'Back', operations_path %>

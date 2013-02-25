@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+	<head>
+		<title>
+		Case Study 
+		</title>
+		<link rel="stylesheet" type="text/css" href="/assets/casestyle.css">
+	</head>
+
+<body>
+<div class="container">
+	<h1 style="text-align:center;"> <%= @case_study.name %> </h1>
+	<div class="casebox">
+      <%= @case_study.description %>
+	</div>
+	<a href="/case_oper/<%= @case_study.id %>"><img src="/assets/start.png" alt="Start">	</a>
+</div>
+</body>
+</html>

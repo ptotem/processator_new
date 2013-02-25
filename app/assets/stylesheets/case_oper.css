@@ -1,0 +1,60 @@
+body{
+    background: url('/assets/sand_bg.jpg') no-repeat;
+    font-family: 'Merienda', Arial, sans-serif;
+    color:white;
+}
+.cases_container{
+    height:600px;
+    width:800px;
+    margin:0px auto;
+    background: url('/assets/Background.jpg') no-repeat;
+    margin-top:7px;
+}
+.casestudy_title{
+    text-align: center;
+    font-size: 32px;
+
+}
+.case_wrapper{
+    float:left;
+    width:100%;
+    heigth:25px;
+    margin-top: 50px;
+
+}
+.case_desc{
+    float:left;
+    width:312px;
+    background-color: red;
+    background: url('/assets/textboxblue.png') no-repeat;
+    height:394px;
+    margin-left:25px;
+    text-align: justify;
+    padding:10px;
+}
+.case_download{
+    float:right;
+    width:50%;
+    heigth:100%;
+    padding:10px;
+}
+.checklist_container{
+    float:left;
+    width:85%;
+    cursor: pointer;
+}
+.checklist_desc{
+    float:left;
+    margin-top:40px;
+    margin-left: 30px;
+}
+a{
+    color:white;
+}
+.jin_enter{
+    float:right;
+    width:14%;
+    heigth:100%;
+    padding:10px;
+    margin-top: -50px;
+}

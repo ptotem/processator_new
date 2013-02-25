@@ -1,0 +1,205 @@
+<link rel="stylesheet" type="text/css" href="/assets/demo.css"/>
+<link rel="stylesheet" type="text/css" href="/assets/style_palace.css"/>
+<!--<link rel="stylesheet" type="text/css" href="/assets/timeline_style.css"/>-->
+<link rel="stylesheet" type="text/css" href="/assets/game_page.css"/>
+
+<script type="text/javascript" src="/assets/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/assets/modernizr.custom.04022.js"></script>
+<script type="text/javascript" src="/assets/modernizr.custom.63321.js"></script>
+<script type="text/javascript" src="/assets/game_page.js"></script>
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700,300,300italic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Merienda' rel='stylesheet' type='text/css'>
+
+<!--[if lte IE 7]>
+<style>.support-note .note-ie {
+    display: block;
+}</style><![endif]-->
+<script type="text/javascript">
+    var count = 1;
+    $(document).ready(function () {
+
+        $(".option").on('click', change_description_on_click);
+
+        $(".thumb").click(function () {
+            $(this).prev().prev().prop('checked', true);
+//            var ans = $(this).parent().find('.answer').html();
+            var this_div_www = '#' + $(this).prev().prev().val();
+            var data = {question_id:[], selected:[]};
+            data["question_id"].push(<%= @question.id rescue 0%>);
+            data["selected"].push($(this).prev().prev().val());
+            $.ajax({
+                url:"/check_quiz/" + <%= @question.id rescue 0 %> +"/" + $(this).prev().prev().val(),
+                type:"get",
+                contentType:"application/json",
+                success:function (returning_data) {
+                    if (returning_data.toString().split('|')[0] == 'y') {
+                        $(this_div_www).html('Correct');
+                        $(this).css('background-image', 'url(/assets/chest/chest_gold.png)');
+                    }
+                    else {
+                        $(this_div_www).html('Wrong');
+                        $(this).css('background-image', 'url(/assets/chest/chest_empty.png)');
+                    }
+                    percentage = parseInt(returning_data.toString().split('|')[1]);
+                    $('.coin_score').html(percentage);
+
+                    setTimeout(function () {
+                        $(".container").show();
+                        $(".container_timeline").hide();
+                    }, 1200);
+                }
+            });
+        });
+
+        function time_decrement() {
+            $(".time_score").text(parseInt($(".time_score").text()) - 8);
+            if ($(".time_score").text() != 0) {
+                setTimeout(time_decrement, 1000);
+            }
+            else {
+                $.ajax({
+                    url:"/time_over",
+                    type:"get",
+                    contentType:"application/json",
+                    success:function (returning_data) {
+                     //alert(returning_data);
+                        percentage = parseInt(returning_data.toString());
+                        $('.coin_score').html(percentage);
+                    }
+                });
+            }
+
+        }
+
+        ;
+        time_decrement();
+
+
+    })
+
+    function change_description_on_click() {
+        var option_btn = $(this).attr("id");
+        option_btn = parseInt(option_btn.replace(/button-/, '')) - 2;
+        var this_div = '#img' + option_btn;
+        //alert();
+        $(".game_description").animate({
+            left:'-=500'
+
+        }, 670, function () {
+            $(this).empty();
+            $(this).html($(this_div).next().html());
+            new_description();
+
+        });
+
+    }
+
+    function new_description() {
+        $(".game_description").css("left", "50px");
+    }
+
+    function wthide(this_div) {
+    <% if !@question.nil? %>
+        $(this_div).parent().hide();
+    <%else%>
+        $(this_div).parent().hide();
+        $(".container").show();
+    <%end%>
+    }
+
+    function is_right_step(no_of_step, selected) {
+
+        var data = {operation_id:[], index:[], selected:[]};
+        data["operation_id"].push("<%= @operation.id %>");
+        data["index"].push(count);
+        data["selected"].push(selected);
+        $.ajax({
+            url:"/is_correct/" + <%= @operation.id %> +"/" + <%= @count %> +"/" + selected,
+            type:"get",
+            contentType:"application/json",
+            success:function (returning_data) {
+                if (returning_data.toString().split('|')[0] == 'y') {
+                    if (parseInt(returning_data.toString().split('|')[3]) < no_of_step) {
+                        window.location = '/play/' + <%= @operation.id %> + '/' + returning_data.toString().split('|')[2] + '/' + returning_data.toString().split('|')[3] + '/' + returning_data.toString().split('|')[5]
+                    }
+                    else {
+                        alert('Game Completed');
+                        window.location = '/game_over/'+$(".time_score").text()
+                    }
+                }
+                else {
+
+                    alert('Wrong Answer');
+//                    if (parseInt(returning_data.toString().split('|')[4]) <= 0) {
+//                        alert('Game Completed');
+//                        window.location = '/game_over/'+$(".time_score").text();
+//                    }
+
+                    percentage = parseInt(returning_data.toString().split('|')[4]);
+                    $('.coin_score').html(percentage);
+                }
+
+            }
+        });
+
+    }
+</script>
+
+<div class="score">
+  <img class="goldcoin" src="/assets/goldcoin.png" alt="image01" height="60px" width="60px"/>
+
+  <p class="coin_score"><%= @user.reputation %></p>
+  <img class="timer" src="/assets/hourglass.png" alt="image01" height="60px" width="40px"/>
+
+  <p class="time_score">320</p>
+</div>
+<div class="container">
+
+  <div class="sp-slideshow">
+
+    <input id="button-1" type="radio" name="radio-set" class="sp-selector-1 option" checked="checked"/>
+    <label for="button-1" class="button-label-1"></label>
+
+    <input id="button-2" type="radio" name="radio-set" class="sp-selector-2 option"/>
+    <label for="button-2" class="button-label-2"></label>
+
+    <input id="button-3" type="radio" name="radio-set" class="sp-selector-3 option"/>
+    <label for="button-3" class="button-label-3"></label>
+
+    <input id="button-4" type="radio" name="radio-set" class="sp-selector-4 option"/>
+    <label for="button-4" class="button-label-4"></label>
+
+    <label for="button-1" class="sp-arrow sp-a1"></label>
+    <label for="button-2" class="sp-arrow sp-a2"></label>
+    <label for="button-3" class="sp-arrow sp-a3"></label>
+    <label for="button-4" class="sp-arrow sp-a4"></label>
+
+
+    <div class="sp-content">
+      <div class="sp-parallax-bg"></div>
+      <ul class="sp-slider clearfix">
+        <li>
+             <img class="jin_image" src="/assets/gin.png" alt="image01"/>
+        </li>
+
+        <% @option_value.each_with_index do |i, index| %>
+            <li onclick="is_right_step(<%= @correct_path.split(',').count %>,<%= i.id %>)"><%= image_tag '/assets/Desert/desert'+(index+1).to_s+'.png', :id => 'img'+index.to_s %>
+              <h2><%= i.name %></h2>
+              <%= hidden_field_tag 'fff', i.id %>
+            </li>
+        <% end %>
+      </ul>
+      <!--<div class="game_description" style="color: #000000;">-->
+        <%#= @step.name %>
+      <!--</div>-->
+    </div>
+    <!-- sp-content -->
+
+  </div>
+  <!-- sp-slideshow -->
+
+</div>
+
+
+

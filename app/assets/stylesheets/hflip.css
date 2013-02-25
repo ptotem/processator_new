@@ -1,0 +1,16 @@
+#coin_container{
+    margin: 0px auto;
+    height: 70px;
+    width: 50px;
+}
+#image1{
+	position:absolute;
+	cursor:pointer;
+	width:60px;
+	height:60px;
+}
+#image2{
+	/*display:none;*/
+	position:absolute;
+	cursor:pointer;
+}

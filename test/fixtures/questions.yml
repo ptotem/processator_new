@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  step_id: 1
+  description: MyText
+  optionA: MyText
+  optionB: MyText
+  optionC: MyText
+  correct: MyString
+
+two:
+  step_id: 1
+  description: MyText
+  optionA: MyText
+  optionB: MyText
+  optionC: MyText
+  correct: MyString

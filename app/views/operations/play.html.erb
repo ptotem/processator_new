@@ -1,0 +1,333 @@
+<link rel="stylesheet" type="text/css" href="/assets/demo.css"/>
+<link rel="stylesheet" type="text/css" href="/assets/style_palace.css"/>
+<!--<link rel="stylesheet" type="text/css" href="/assets/timeline_style.css"/>-->
+<link rel="stylesheet" type="text/css" href="/assets/game_page.css"/>
+<link rel="stylesheet" type="text/css" href="/assets/hflip.css"/>
+
+<script type="text/javascript" src="/assets/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/assets/modernizr.custom.04022.js"></script>
+<script type="text/javascript" src="/assets/modernizr.custom.63321.js"></script>
+<script type="text/javascript" src="/assets/game_page.js"></script>
+<script type="text/javascript" src="/assets/hflip.js"></script>
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700,300,300italic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Merienda' rel='stylesheet' type='text/css'>
+
+<!--[if lte IE 7]>
+<style>.support-note .note-ie {
+    display: block;
+}</style><![endif]-->
+<script type="text/javascript">
+    var count = 1;
+    $(document).ready(function () {
+
+        <% if !@question.nil? %>
+                //alert('Sunny');
+                $('.sp-a2').prop('disabled', true);
+
+        <%else%>
+            $('.bhen').hide();
+            $(".bhen").parent().append($(".bhen").html());
+            $('.clearfix').children().first().empty().remove();
+        <%end%>
+
+        $(".option").on('click', change_description_on_click);
+
+        $(".chest_container").click(function () {
+            //alert($(this).children().attr('src'));
+
+            var this_div_www = '#' + $(this).attr('id');
+            var data = {question_id:[], selected:[]};
+            data["question_id"].push(<%= @question.id rescue 0%>);
+            data["selected"].push($(this).attr('id'));
+            $.ajax({
+                url:"/check_quiz/" + <%= @question.id rescue 0 %> +"/" + $(this).attr("id"),
+                type:"get",
+                contentType:"application/json",
+                success:function (returning_data) {
+                    if (returning_data.toString().split('|')[0] == 'y') {
+                        $(this_div_www).children().attr('src', '/assets/chest/chest_gold.png');
+                        $('.bobby').click();
+                        $(".instruction1").empty();
+                        $(".instruction1").text('Click on the arrow to continue...');
+                        setTimeout (function(){
+                            $("#mintor").empty();
+                            $("#mintor").append('<p style="margin-top: 100px;padding: 10px;">You have answered correctly, as a reward you shall receive <span style="font-weight: bold;font-size: 25px;">1</span> Reputation Coin</p>');
+
+                         },700);
+
+
+                    }
+                    else {
+                        $(this_div_www).children().attr('src', '/assets/chest/chest_empty.png');
+                        $('.bobby').click();
+                        $('.bobby').click();
+                        $(".instruction1").empty();
+                                               $(".instruction1").text('Click on the arrow to continue...');
+                        setTimeout (function(){
+                            $("#mintor").empty();
+                            $("#mintor").append('<p style="margin-top: 100px;padding: 10px;">You answered is wrong, you will lose <span style="font-weight: bold;font-size: 25px;">2</span> Reputation Coins</p>');
+                        },700);
+                    }
+
+                    $(".bhen").parent().append($(".bhen").html());
+                    percentage = parseInt(returning_data.toString().split('|')[1]);
+//                    $('.coin_score').html(percentage);
+
+                    if(percentage < 0)
+                    {
+                        percentage=0;
+                        $('.coin_score').html(percentage);
+                    }
+                    else
+                    {
+                        $('.coin_score').text(percentage);
+                    }
+
+                    setTimeout(function () {
+                        $(".container").show();
+                        $(".container_timeline").hide();
+                    }, 1200);
+                }
+            });
+        });
+
+        function time_decrement() {
+            $(".time_score").text(parseInt($(".time_score").text()) - 8);
+            if ($(".time_score").text() != 0) {
+                setTimeout(time_decrement, 1000);
+            }
+            else {
+                $.ajax({
+                    url:"/time_over",
+                    type:"get",
+                    contentType:"application/json",
+                    success:function (returning_data) {
+                     //alert(returning_data);
+                        percentage = parseInt(returning_data.toString());
+                        $('.coin_score').html(percentage);
+
+
+                    }
+                });
+            }
+
+        }
+
+        ;
+        time_decrement();
+
+
+    })
+
+    function change_description_on_click() {
+        var option_btn = $(this).attr("id");
+        option_btn = parseInt(option_btn.replace(/button-/, '')) - 2;
+        var this_div = '#img' + option_btn;
+
+        $(".animation ").animate({
+            left:'-=700'
+
+        }, 670, function () {
+            $(this).empty();
+            $(this).html($(this_div).next().next().next().html());
+            new_description();
+
+        });
+
+    }
+
+    function new_description() {
+        $(".animation").css("left", "50px");
+    }
+
+    function wthide(this_div) {
+    <% if !@question.nil? %>
+        $(this_div).parent().hide();
+    <%else%>
+        $(this_div).parent().hide();
+        $(".container").show();
+    <%end%>
+    }
+
+    function is_right_step(no_of_step, selected) {
+
+        var data = {operation_id:[], index:[], selected:[]};
+        data["operation_id"].push("<%= @operation.id %>");
+        data["index"].push(count);
+        data["selected"].push(selected);
+        $.ajax({
+            url:"/is_correct/" + <%= @operation.id %> +"/" + <%= @count %> +"/" + selected,
+            type:"get",
+            contentType:"application/json",
+            success:function (returning_data) {
+                if (returning_data.toString().split('|')[0] == 'y') {
+                    if (parseInt(returning_data.toString().split('|')[3]) < no_of_step) {
+                        var remaining_time=<%= @remaining_time %> +parseInt($(".time_score").text());
+
+                        $(".path_message").empty();
+                        $(".path_message").html("<br><br><br>You have selected the right path, as a reward you shall receive 1 Reputation Coin");
+                        $(".path_message").show();
+                        $('.bobby').click();
+                        setTimeout(function(){
+                            window.location = '/play/' + <%= @operation.id %> + '/' + returning_data.toString().split('|')[2] + '/' + returning_data.toString().split('|')[3] + '/' + returning_data.toString().split('|')[5]+'/'+remaining_time;
+                        },1000);
+                    }
+                    else {
+                        $("#game_over").css('display','block');
+                        var remaining_time=<%= @remaining_time %> +parseInt($(".time_score").text());
+//                        alert(remaining_time);
+                        window.location = '/game_over/'+remaining_time;
+                    }
+                }
+                else {
+
+                    //alert('Wrong Answer');
+                    var incorrect='#incorrect'+selected;
+                    $(incorrect).css('display','block');
+                    setTimeout(function(){
+                        $(incorrect).fadeOut('slow');
+                    },2000);
+
+                    $('.bobby').click();
+                    $('.bobby').click();
+                    percentage = parseInt(returning_data.toString().split('|')[4]);
+                    if(percentage < 0)
+                    {
+                        percentage=0;
+                        $('.coin_score').html(percentage);
+                    }
+                    else
+                    {
+                        $('.coin_score').text(percentage);
+                    }
+
+
+                }
+
+            }
+        });
+
+    }
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+//        $(".sp-a2").hide();// hiding right arrow on load
+
+        <% if !@question.nil? %>
+            $("#door_img1").remove();
+
+        <%else%>
+            $(".sp-a2").show();
+
+        <%end%>
+
+       //displaying right arrow on click of chest
+       $(".chest_image").click(function(){
+       });
+
+        $(".game_description").hide();
+        //$(".instruction").hide();
+        $("#door_img1").hide();
+        $("#jin").animate({
+                left:'-=600'
+
+            }, 2000, function () {
+                $(this).attr("id","");
+                $(this).addClass('jin_image');
+                $(".game_description").fadeIn(1000);
+                $("#door_img1").fadeIn(2500);
+                $("#mintor").fadeIn(3000);
+//                setTimeout(function(){
+//                    $(".instruction").show();
+//                },2000)
+            });
+        $("")
+    })
+</script>
+
+<div class="container">
+
+  <div class="sp-slideshow">
+
+    <input id="button-1" type="radio" name="radio-set" class="sp-selector-1 option" checked="checked"/>
+    <label for="button-1" class="button-label-1"></label>
+
+    <input id="button-2" type="radio" name="radio-set" class="sp-selector-2 option"/>
+    <label for="button-2" class="button-label-2"></label>
+
+    <input id="button-3" type="radio" name="radio-set" class="sp-selector-3 option"/>
+    <label for="button-3" class="button-label-3"></label>
+
+    <% if !@question.nil? %>
+        <input id="button-4" type="radio" name="radio-set" class="sp-selector-4 option"/>
+        <label for="button-4" class="button-label-4"></label>
+    <%end%>
+
+    <label for="button-1" class="sp-arrow sp-a1"></label>
+
+    <div class="bhen"><label for="button-2" class="sp-arrow sp-a2"></label></div>
+    <label for="button-3" class="sp-arrow sp-a3"></label>
+
+    <% if !@question.nil? %>
+        <label for="button-4" class="sp-arrow sp-a4"></label>
+    <%end%>
+
+
+
+    <div class="sp-content">
+      <div class="score">
+        <div id="coin_container" class="goldcoin">
+        	<img id="image1" class='bobby' src="/assets/goldcoin.png" />
+            <img id="image2" class='bobby' src="/assets/goldcoin.png" />
+        </div>
+
+        <p class="coin_score"><%= @user.reputation %></p> <br>
+        <img class="timer" src="/assets/hourglass.png" alt="image01" height="60px" width="40px"/>
+
+        <p class="time_score">320</p>
+
+      </div>
+
+      <div class="sp-parallax-bg"></div>
+      <ul class="sp-slider clearfix">
+        <li>
+          <img  id="jin" src="/assets/gin.png" alt="image01"/>
+          <!--<img id="door_img1" class="animation" style="position:absolute;top:115px;z-index:999;" src="/assets/doors/door02.png" alt="image01"/>-->
+          <% if !@question.nil? %>
+              <div class="mini_game" id="mintor" value="<%= @question.id %>">
+                <p style="font-size: 15px;"><%= @question.description %></p>
+                <div class="chest_container" id="a" style="cursor:pointer;"><img src="/assets/chest/chest_close.png" style="float:left;width:20%;padding: 0px;height:60px;width:60px;margin-left:10px;margin-top: 1px;" class="chest_image"><p class="ans" ><%= @question.optionA %></p></div>
+                <div class="chest_container" id="b" style="cursor:pointer;"><img src="/assets/chest/chest_close.png" style="float:left;width:20%;padding: 0px;height:60px;width:60px;margin-left:10px;margin-top: 1px;" class="chest_image"><p class="ans" ><%= @question.optionB %></p></div>
+                <div class="chest_container" id="c" style="cursor:pointer;"><img src="/assets/chest/chest_close.png" style="float:left;width:20%;padding: 0px;height:60px;width:60px;margin-left:10px;margin-top: 1px;" class="chest_image"><p class="ans" ><%= @question.optionC %></p></div>
+              </div>
+          <%end%>
+
+          <p class="instruction instruction1">Answer the question to go through.</p>
+        </li>
+
+        <% @option_value.each_with_index do |i, index| %>
+            <li onclick="is_right_step(<%= @correct_path.split(',').count %>,<%= i.id %>)">
+              <%= image_tag "/assets/gin.png", :id => 'img'+index.to_s,:class=>"jin_image" %>
+              <img id="door_img2" style="position:absolute;top:115px;z-index:999;cursor:pointer;" src="/assets/doors/door0<%= index+2 %>.png" alt="image01"/>
+              <p class="instruction">If you think this is next step click on the Door or use the arrows to try another.</p>
+              <h4 style="position:absolute;top:200px;z-index:999;margin-left: 70px;height:140px;width: 100px;cursor:pointer;   "><%= i.name %></h4>
+              <div class="path_message" id="incorrect<%= i.id %>" style='position:absolute;top:185px;z-index:999;margin-left: 15px;display:none;font-family: "Merienda", Arial, sans-serif;color:#ffffff;font-size:23px;width: 202px;height: 249px;background-color: #4b4161;opacity:0.7;font-size: 18px;border-radius: 10px;'><br><br><br>You have selected the wrong path, you will lose 2 Reputation Coins</div>
+              <p id="game_over" style='position:absolute;top:300px;z-index:999;margin-left: 15px;display:none;font-family: "Merienda", Arial, sans-serif;color:red;font-size:23px; '>Game Completed.</p>
+              <%#= hidden_field_tag 'fff', i.id %>
+            </li>
+        <% end %>
+      </ul>
+
+      <div class="game_description_current_step animation_1" style="color: #000000;"><span style="font-size: 15px;">You have completed </span> <br>
+        <%= @step.name %>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+

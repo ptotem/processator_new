@@ -1,0 +1,61 @@
+<link rel="stylesheet" type="text/css" href="/assets/game_over.css" />
+<link href='http://fonts.googleapis.com/css?family=Merienda' rel='stylesheet' type='text/css'>
+
+<script type="text/javascript" src="/assets/jquery-1.8.3.min.js"></script>
+
+<script type="text/javascript">
+    var repo1=<%= @rep %>;
+    $(document).ready(function(){
+      var currCount = parseInt($("#remain_time").html());
+      var repo = parseInt($("#reputation").html());
+
+      var total = currCount+repo;
+
+      setTimeout(function(){
+         decrement();
+         increment();
+     },1000);
+
+
+    function decrement(){
+
+        var currCount = $("#remain_time").html();
+
+            if (currCount > 0) {
+               setTimeout(decrement,5);
+                $('#remain_time').text(currCount-100);
+                if( $('#remain_time').text()<0)
+                {
+                    $('#remain_time').text(0);
+                }
+            }
+        //increment()
+        }
+
+    function increment(){
+          if (repo1 < <%= @user.reputation %>) {
+              setTimeout(increment,25);
+              repo1 = repo1+1;
+              $('#reputation').text(repo1);
+          }
+
+
+    }
+
+
+    });
+
+
+
+</script>
+
+<div class="game_over_container"><br clear="all">
+  <h1>Game Over</h1>
+  <div style="margin-top: 50px;">
+    <div class="time"><p>Remaining Time :</p><p ><span id="remain_time"><%= @time_remaining %></span> Seconds</p></div>
+    <div class="time1"><p>Reputation Earned :</p><p id="reputation"><%= @rep %></p></div>
+    <br style="clear:both">
+  </div>
+
+  <div style="position:absolute;top:110px;"><img  id="jin" src="/assets/gin.png" alt="image01"/></div>
+</div>

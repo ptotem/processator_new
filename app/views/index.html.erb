@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+
+  <link rel="stylesheet" type="text/css" href="/assets/casepage.css">
+  <link rel="stylesheet" type="text/css" href="/assets/doormenu.css">
+  <script type="text/javascript" src="assets/exclusions/jquery.min.js"></script>
+  <script type="text/javascript" src="assets/modernizr-1.5.min.js"></script>
+  <script>
+      $(document).ready(function(){
+          $('.dddd').hide();
+          $('#1').show();
+          $(".button_example").click(function(){
+              $('.button_example').removeClass('selected');
+              var value = $(this).attr("value");
+              $(this).addClass("selected");
+              value=value.replace('Case_','');
+              value="#"+value;
+              $('.dddd').hide();
+              $(value).show();
+          })
+      });
+      function next_page(){
+          var cs_id=$('.selected').val();
+          cs_id=cs_id.replace('Case_','');
+          window.location='/case_oper/'+cs_id;
+      }
+  </script>
+
+
+</head>
+<body>
+<div class="container_wrapper">
+  <div class="cases_container">
+    <% @case_studies.each do |c| %>
+        <input type="button" class="button_example" value="Case_<%= c.id %>" /><br>
+    <%end%>
+
+  </div>
+
+  <div class="desc">
+    <% @case_studies.each do |case1| %>
+        <div class="dddd" id="<%= case1.id %>">
+          <%= case1.description %>
+        </div>
+    <%end %>
+  </div>
+  <div class="enter_button">
+    <input type="button" class="button_example enter" value="Enter" onclick="next_page();" />
+  </div>
+  <br clear="all">
+
+</div>
+</body>
+</html>

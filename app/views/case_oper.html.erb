@@ -1,0 +1,63 @@
+<link rel="stylesheet" type="text/css" href="/assets/demo.css"/>
+<link rel="stylesheet" type="text/css" href="/assets/style_a.css"/>
+<link rel="stylesheet" type="text/css" href="/assets/game_page.css"/>
+
+<script type="text/javascript" src="/assets/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/assets/modernizr.custom.04022.js"></script>
+<script type="text/javascript" src="/assets/modernizr.custom.63321.js"></script>
+<!--<script type="text/javascript" src="/assets/game_page.js"></script>-->
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700,300,300italic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Merienda' rel='stylesheet' type='text/css'>
+
+<!--[if lte IE 7]>
+<style>.support-note .note-ie {
+    display: block;
+}</style><![endif]-->
+<div class="container" style="background-color: red;">
+
+  <div class="sp-slideshow">
+
+    <input id="button-1" type="radio" name="radio-set" class="sp-selector-1 option" checked="checked"/>
+    <label for="button-1" class="button-label-1"></label>
+
+    <input class="sachin" id="button-2" type="radio" name="radio-set" class="sp-selector-2 option"/>
+    <label for="button-2" class="button-label-2"></label>
+
+    <input id="button-3" type="radio" name="radio-set" class="sp-selector-3 option"/>
+    <label for="button-3" class="button-label-3"></label>
+
+    <!--<input id="button-4" type="radio" name="radio-set" class="sp-selector-4 option"/>-->
+    <!--<label for="button-4" class="button-label-4"></label>-->
+
+
+    <label for="button-1" class="sp-arrow sp-a1"></label>
+    <label for="button-2" class="sp-arrow sp-a2"></label>
+    <label for="button-3" class="sp-arrow sp-a3"></label>
+    <!--<label for="button-4" class="sp-arrow sp-a4"></label>-->
+
+    <div class="sp-content">
+      <div class="sp-parallax-bg"></div>
+      <ul class="sp-slider clearfix">
+        <li><img src="/assets/Instructions.png" alt="image01" /></li>
+        <li><img src="" alt="" />
+          <p style="text-align: justify;"><%= @case_study.operations.first.description %></p>
+          <div style="float:left;">
+              <img style="float:left;margin:45px; " src="/assets/dassets.png" alt="image01" height="150px" width="200px" />
+              <img style="float:left;margin:45px;" src="/assets/dchecklist.png" alt="image01" height="150px" width="200px"/>
+              <img style="float:left;margin:45px;" src="/assets/dflowchart.png" alt="image01" height="150px" width="200px"/>
+          </div>
+
+        </li>
+        <li><a href="/play/<%= @case_study.operations.first.id %>/<%= @case_study.operations.first.steps.first.id %>/1/<%= current_user.reputation %>"><img src="/assets/start.png" alt="image03" /></a></li>
+
+      </ul>
+      <!--<div class="game_description" style="color: #000000;">-->
+      <!--</div>-->
+    </div>
+    <!-- sp-content -->
+
+  </div>
+  <!-- sp-slideshow -->
+
+</div>

@@ -1,0 +1,39 @@
+body {
+	background-color: #e8e8e8;
+	background-image: url('/assets/sand_bg.jpg');
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+
+a{
+	position: relative;
+	left: 35%;
+	top: 3%;
+}
+
+.container{
+	position:absolute;
+	padding: 20px;
+	border: 2px solid;
+	width: 80%;
+	height: 100%;
+	left: 10%;
+	top: 2%;
+	right:10%;
+}
+
+.casebox{
+	position: relative;
+	padding: 20px;
+	border: 2px solid #FFFFFF;
+	border-width: 8px;
+	width: 85%;
+	height: 60%;
+	left: 5%;
+	opacity: 0.7;
+}
+
+.startbutton{
+ position: relative;
+ background-image: url('/assets/start.png');
+ }

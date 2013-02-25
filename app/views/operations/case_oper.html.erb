@@ -1,0 +1,42 @@
+
+<link rel="stylesheet" type="text/css" href="/assets/case_oper.css"/>
+
+<script type="text/javascript" src="/assets/jquery-1.8.3.min.js"></script>
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700,300,300italic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Merienda' rel='stylesheet' type='text/css'>
+
+<div class="cases_container">
+    <br clear="all">
+    <div class="casestudy_title"><%= @case_study.name%></div>
+    <div class="case_wrapper">
+         <div class="case_desc" style="overflow:auto;background-size: 100% 100%">
+           <p style="font-size:14px;"><%= @case_study.description %></p>
+         </div>
+        <div class="case_download">
+        <a href="">
+            <div class="checklist_container" style="">
+                <p class="checklist_desc">Download Check List</p>
+                <img style="float:right;" src="/assets/chest/chest_close.png" alt="image01"/>
+            </div>
+        </a>
+        </div>
+      <div class="case_download">
+       <div class="checklist_container" style="">
+         <a href=""><p class="checklist_desc">Download Assets</p></a>
+             <img style="float:right;" src="/assets/chest/chest_close.png" alt="image01"/>
+       </div>
+     </div>
+      <div class="case_download">
+         <div class="checklist_container" style="">
+           <a href=""><p class="checklist_desc">Download Flow Chart</p></a>
+               <img style="float:right;" src="/assets/chest/chest_close.png" alt="image01"/>
+         </div>
+       </div>
+      <div class="jin_enter">
+           <div class="checklist_container" style="">
+             <a href="/play/<%= @case_study.operations.first.id %>/<%= @case_study.operations.first.steps.first.id %>/1/<%= current_user.reputation %>/0"><img id="enter" style="float:right;" src="/assets/enter button glow.png" alt="image01"/></a>
+           </div>
+         </div>
+    </div>
+ </div>

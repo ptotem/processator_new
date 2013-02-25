@@ -1,0 +1,57 @@
+.container_wrapper{
+   border: 3px solid;
+   margin-left:5%;
+   float:left;
+   width:90%;
+   padding:20px;
+   box-shadow: 5px 5px 5px black;
+   border-radius:30px;
+
+}
+.button_example{
+border:1px solid #d7dada; -webkit-border-radius: 3px; -moz-border-radius: 3px;border-radius: 3px;font-family:Gill Sans MT; padding: 10px 70px 10px 70px; font-weight:bold; text-align: center; color: #096691; background-color: #f4f5f5;
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f4f5f5), color-stop(100%, #dfdddd));
+ background-image: -webkit-linear-gradient(top, #f4f5f5, #dfdddd);
+ background-image: -moz-linear-gradient(top, #f4f5f5, #dfdddd);
+ background-image: -ms-linear-gradient(top, #f4f5f5, #dfdddd);
+ background-image: -o-linear-gradient(top, #f4f5f5, #dfdddd);
+ background-image: linear-gradient(top, #f4f5f5, #dfdddd);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#f4f5f5, endColorstr=#dfdddd);
+}
+
+.button_example:hover{
+ border:1px solid #bfc4c4; background-color: #d9dddd;
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d9dddd), color-stop(100%, #c6c3c3));
+ background-image: -webkit-linear-gradient(top, #d9dddd, #c6c3c3);
+ background-image: -moz-linear-gradient(top, #d9dddd, #c6c3c3);
+ background-image: -ms-linear-gradient(top, #d9dddd, #c6c3c3);
+ background-image: -o-linear-gradient(top, #d9dddd, #c6c3c3);
+ background-image: linear-gradient(top, #d9dddd, #c6c3c3);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#d9dddd, endColorstr=#c6c3c3);
+}
+.cases_container{
+    float:left;
+    padding: 15px;
+    width:30%;
+    float:left;
+    text-align: center;
+}
+.desc{
+    float:left;
+    padding: 20px;
+    width: 60%;
+    margin-top:1%;
+    text-align: justify;
+    border:2px solid;
+    box-shadow: 5px 5px 5px black;
+    border-radius:15px;
+}
+.enter_button{
+    position:absolute;
+    top:450px;
+    left:770px;
+
+}
+.enter{
+    padding-top:30px;
+    padding-bottom:30px;
+    font-size: 25px;
+}
